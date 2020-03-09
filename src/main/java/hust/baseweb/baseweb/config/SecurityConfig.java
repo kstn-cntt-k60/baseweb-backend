@@ -26,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/security/permission",
-                        "/api/security/save-group-permissions")
+                        "/api/security/save-group-permissions",
+                        "/api/security/add-security-group")
                     .hasAuthority("VIEW_EDIT_SECURITY_PERMISSION")
                 .anyRequest().authenticated()
                 .and()

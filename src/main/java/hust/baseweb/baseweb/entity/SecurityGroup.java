@@ -1,6 +1,7 @@
 package hust.baseweb.baseweb.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +13,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class SecurityGroup {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NonNull
     private short id;
 
@@ -20,5 +20,6 @@ public class SecurityGroup {
     @Column(unique = true)
     private String name;
 
+    @CreationTimestamp
     private Date createdAt;
 }
