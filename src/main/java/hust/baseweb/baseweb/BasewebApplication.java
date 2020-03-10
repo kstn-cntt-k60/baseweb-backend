@@ -12,12 +12,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class BasewebApplication implements ApplicationRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BasewebApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BasewebApplication.class, args);
+    }
 
-	@Override
-	public void run(ApplicationArguments arg0) throws Exception {
-		System.out.println(UserLogin.PASSWORD_ENCODER.encode("admin"));
-	}
+    @Override
+    public void run(ApplicationArguments arg0) throws Exception {
+        System.out.println(UserLogin.PASSWORD_ENCODER.encode("admin"));
+    }
 }

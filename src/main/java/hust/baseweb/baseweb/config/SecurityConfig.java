@@ -28,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/security/permission",
                         "/api/security/save-group-permissions")
                     .hasAuthority("VIEW_EDIT_SECURITY_PERMISSION")
+                .antMatchers("/api/sales-route/planning-period")
+                    .hasAuthority("VIEW_EDIT_SALES_ROUTE_PLANNING_PERIOD")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().authenticationEntryPoint(authenticationEntryPoint);
