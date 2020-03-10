@@ -43,7 +43,8 @@ VALUES
     (6, 'VIEW_EDIT_PRODUCT'),
     (7, 'VIEW_EDIT_FACILITY'),
     (8, 'IMPORT'),
-    (9, 'EXPORT');
+    (9, 'EXPORT'),
+    (10, 'VIEW_EDIT_SALES_ROUTE_PLANNING_PERIOD');
 
 INSERT INTO user_login_security_group(user_login_id, security_group_id)
 VALUES
@@ -62,6 +63,7 @@ VALUES
     (1, 4),
     (2, 6),
     (3, 5),
+    (3, 10),
     (4, 7),
     (5, 8),
     (6, 9);

@@ -9,6 +9,7 @@ import hust.baseweb.baseweb.repository.SecurityGroupRepository;
 import hust.baseweb.baseweb.repository.SecurityPermissionRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +29,11 @@ class PermissionResponse {
 }
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 class SavePermissionsRequest {
-    private final short securityGroupId;
-    private final List<Short> toBeInserted;
-    private final List<Short> toBeDeleted;
+    private short securityGroupId;
+    private List<Short> toBeInserted;
+    private List<Short> toBeDeleted;
 }
 
 @Getter
