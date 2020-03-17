@@ -58,15 +58,15 @@ CREATE TABLE unit_uom(
 CREATE TABLE party_type(
     id SMALLINT PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE party(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
     party_type_id SMALLINT NOT NULL REFERENCES party_type(id),
     description VARCHAR NOT NULL DEFAULT '',
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     created_by_user_login_id UUID NOT NULL,
     updated_by_user_login_id UUID NOT NULL
 );
@@ -86,8 +86,8 @@ CREATE TABLE person(
     last_name VARCHAR NOT NULL,
     gender_id SMALLINT NOT NULL REFERENCES gender(id),
     birth_date DATE NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER person_updated_at BEFORE UPDATE ON
@@ -97,8 +97,8 @@ CREATE TABLE customer(
     id UUID PRIMARY KEY REFERENCES party(id),
     name VARCHAR NOT NULL,
     description VARCHAR NOT NULL DEFAULT '',
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER customer_updated_at BEFORE UPDATE ON
@@ -109,8 +109,8 @@ CREATE TABLE user_login(
     username VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
     person_id UUID NOT NULL REFERENCES person(id),
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER user_login_updated_at BEFORE UPDATE ON
@@ -119,26 +119,26 @@ CREATE TRIGGER user_login_updated_at BEFORE UPDATE ON
 CREATE TABLE security_group(
     id SMALLINT PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE security_permission(
     id SMALLINT PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE user_login_security_group(
     user_login_id UUID REFERENCES user_login(id),
     security_group_id SMALLINT REFERENCES security_group(id),
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY (user_login_id, security_group_id)
 );
 
 CREATE TABLE security_group_permission(
     security_group_id SMALLINT REFERENCES security_group(id),
     security_permission_id SMALLINT REFERENCES security_permission(id),
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY (security_group_id, security_permission_id)
 );
 
@@ -153,8 +153,8 @@ CREATE TABLE product(
 
     unit_uom_id VARCHAR NOT NULL REFERENCES unit_uom(id),
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER product_updated_at BEFORE UPDATE ON
@@ -169,11 +169,11 @@ CREATE TABLE product_price(
 
     created_by_user_login_id UUID NOT NULL REFERENCES user_login(id),
 
-    effective_from TIMESTAMP NOT NULL DEFAULT now(),
-    expired_at TIMESTAMP,
+    effective_from TIMESTAMPTZ NOT NULL DEFAULT now(),
+    expired_at TIMESTAMPTZ,
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER product_price_updated_at BEFORE UPDATE ON
@@ -183,7 +183,7 @@ CREATE TRIGGER product_price_updated_at BEFORE UPDATE ON
 CREATE TABLE facility_type(
     id SMALLINT PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE facility(
@@ -192,8 +192,8 @@ CREATE TABLE facility(
     facility_type_id SMALLINT NOT NULL REFERENCES facility_type(id),
     address VARCHAR NOT NULL,
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER facility_updated_at BEFORE UPDATE ON
@@ -203,8 +203,8 @@ CREATE TABLE facility_customer(
     id UUID PRIMARY KEY REFERENCES facility(id),
     customer_id UUID NOT NULL REFERENCES customer(id),
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER facility_customer_updated_at BEFORE UPDATE ON
@@ -221,8 +221,8 @@ CREATE TABLE inventory_item(
     unit_cost DECIMAL NOT NULL,
     currency_uom_id VARCHAR NOT NULL REFERENCES currency_uom(id),
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER inventory_item_updated_at BEFORE UPDATE ON
@@ -237,8 +237,8 @@ CREATE TABLE sale_order(
     ship_to_address VARCHAR,
     ship_to_facility_customer_id UUID REFERENCES facility_customer(id),
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER sale_order_updated_at BEFORE UPDATE ON
@@ -247,7 +247,7 @@ CREATE TRIGGER sale_order_updated_at BEFORE UPDATE ON
 CREATE TABLE sale_order_item_status(
     id SMALLINT PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE,
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE sale_order_item(
@@ -260,8 +260,8 @@ CREATE TABLE sale_order_item(
 
     sale_order_item_status_id SMALLINT NOT NULL REFERENCES sale_order_item_status(id),
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     CONSTRAINT pk_sale_order_item PRIMARY KEY (sale_order_id, sale_order_seq)
 );
@@ -273,13 +273,13 @@ CREATE TABLE inventory_item_detail(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
     inventory_item_id BIGINT NOT NULL REFERENCES inventory_item(id),
     exported_quantity DECIMAL NOT NULL,
-    effective_from TIMESTAMP NOT NULL DEFAULT now(),
+    effective_from TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     sale_order_id BIGINT NOT NULL,
     sale_order_seq SMALLINT NOT NULL,
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     CONSTRAINT fk_inventory_item_detail_sale_order_item
         FOREIGN KEY (sale_order_id, sale_order_seq)
@@ -298,8 +298,8 @@ CREATE TABLE sales_route_config(
     is_enabled BOOLEAN NOT NULL,
     repeat_week SMALLINT NOT NULL,
     created_by_user_login_id UUID NOT NULL REFERENCES user_login(id),
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER sales_route_config_updated_at BEFORE UPDATE ON
@@ -308,7 +308,7 @@ CREATE TRIGGER sales_route_config_updated_at BEFORE UPDATE ON
 CREATE TABLE sales_route_config_day(
     config_id UUID REFERENCES sales_route_config(id),
     day SMALLINT REFERENCES day_of_week(day),
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     CONSTRAINT pk_sales_route_config_day PRIMARY KEY (config_id, day)
 );
 
@@ -319,8 +319,8 @@ CREATE TABLE sales_route_planning_period(
     created_by_user_login_id UUID NOT NULL REFERENCES user_login(id),
     description VARCHAR NOT NULL,
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TRIGGER sales_route_planning_period_updated_at BEFORE UPDATE ON
@@ -333,8 +333,8 @@ CREATE TABLE sales_route_detail(
     customer_id UUID NOT NULL REFERENCES customer(id),
     salesman_id UUID NOT NULL REFERENCES person(id),
 
-    created_at TIMESTAMP NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
     CONSTRAINT u_sales_route_detail UNIQUE (planning_period_id, customer_id, salesman_id)
 );
@@ -344,6 +344,6 @@ CREATE TRIGGER sales_route_detail_updated_at BEFORE UPDATE ON
 
 CREATE TABLE salesman_checkin_history(
     sales_route_detail_id UUID PRIMARY KEY REFERENCES sales_route_detail(id),
-    checkin_time TIMESTAMP NOT NULL DEFAULT now(),
-    created_at TIMESTAMP NOT NULL DEFAULT now()
+    checkin_time TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
